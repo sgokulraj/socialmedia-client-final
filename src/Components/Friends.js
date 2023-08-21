@@ -38,10 +38,10 @@ function Friends({ friendId, name, subtitle, userPicturePath }) {
           />
         </div>
         <div
-          onClick={() => {
-            navigate(`/profile/${friendId}`);
-            navigate(0);
-          }}
+          // onClick={() => {
+          //   navigate(`/profile/${friendId}`);
+          //   navigate(0);
+          // }}
           className="friendsInfo"
         >
           <h5>{name}</h5>

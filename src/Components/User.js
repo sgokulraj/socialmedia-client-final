@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../Stylesheet/User.css";
 import {
   MdManageAccounts,
@@ -42,7 +42,7 @@ function User({ userId, picturePath }) {
 
   return (
     <section className="userContainer">
-      <div className="userDiv" onClick={() => navigate(`/profile/${userId}`)}>
+      <div className="userDiv">
         <div className="imageContainer">
           <div>
             {/* img not proper then give height and width to div */}
@@ -57,7 +57,9 @@ function User({ userId, picturePath }) {
             <p>{`${friends.length} friends`}</p>
           </div>
         </div>
-        <MdManageAccounts style={{ fontSize: "25px"}}/>
+        <Link to={`/settings/${userId}`}>
+          <MdManageAccounts style={{ fontSize: "25px" }} />
+        </Link>
       </div>
       <hr />
       <div className="infoDiv">

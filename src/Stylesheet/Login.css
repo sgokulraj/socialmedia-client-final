@@ -20,6 +20,8 @@
     max-width: 500px;
     margin: 50px auto;
     padding: 20px;
+    text-align: center;
+
 }
 
 
@@ -68,3 +70,8 @@
     margin-left: 50px;
 }
 
+.testCred{
+    display: "flex";
+    justify-content: center;
+    align-items: center;
+}

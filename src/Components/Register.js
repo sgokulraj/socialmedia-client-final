@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState , useMemo} from "react";
 import Dropzone from "react-dropzone";
 import { useNavigate, Link } from "react-router-dom";
 import "../Stylesheet/Register.css";
 import FileBase from "react-file-base64"
+import Select from 'react-select'
+import countryList from 'react-select-country-list'
 
 function Register() {
   const {
@@ -16,6 +18,10 @@ function Register() {
   const [files, setFiles] = useState("");
   const [picErr, setPicErr] = useState(false);
   const navigate = useNavigate();
+  const [value, setValue] = useState('')
+  const options = useMemo(() => countryList().getData(), [])
+
+
 
   const password = useRef("");
   password.current = watch("password");
@@ -72,12 +78,12 @@ function Register() {
         }
       },
     },
-    location: {
-      required: {
-        value: true,
-        message: "Enter location",
-      },
-    },
+    // location: {
+    //   required: {
+    //     value: true,
+    //     message: "Enter location",
+    //   },
+    // },
     occupation: {
       required: {
         value: true,
@@ -91,6 +97,10 @@ function Register() {
       },
     },
   };
+
+  const changeHandler = value => {
+    setValue(value)
+  }
 
   return (
     <>
@@ -114,7 +124,7 @@ function Register() {
                 regData.append("lastName", data.lastName);
                 regData.append("email", data.email);
                 regData.append("password", data.password);
-                regData.append("location", data.location);
+                regData.append("location", value.label);
                 regData.append("occupation", data.occupation);
                 regData.append("file", files);
 
@@ -209,22 +219,14 @@ function Register() {
                 {errors.confirm && errors.confirm.message}
               </p>
             </div>
-            <div className="input">
+            <div className="input" style={{marginBottom:"0px"}}>
               {/* <label htmlFor="location">location</label> */}
               <br />
-              <input
-                type="text"
-                id="location"
-                name="location"
-                placeholder="Enter location"
-                {...register("location", validation.location)}
-              />
+              <Select options={options} value={value} onChange={changeHandler} placeholder="Select Country" className="country" />
               <br />
-              <p className="errormsg">
-                {errors.location && errors.location.message}
-              </p>
+              
             </div>
-            <div className="input">
+            <div className="input" style={{marginTop:"-10px", marginBottom: "30px"}}>
               {/* <label htmlFor="occupation">occupation</label> */}
               <br />
               <input

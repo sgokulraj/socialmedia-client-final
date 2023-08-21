@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../ReduxState/index.js";
+import { setPost, setPosts } from "../ReduxState/index.js";
 import Friends from "./Friends.js";
 import "../Stylesheet/Post.css";
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import { FaRegComment } from "react-icons/fa";
 import { PiShareFatFill } from "react-icons/pi";
+import { AiFillDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { BiSolidSend } from "react-icons/bi";
+import {BsArrowReturnRight} from "react-icons/bs"
 
 function Post({
   postId,
@@ -21,12 +25,14 @@ function Post({
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const userIdLogged = useSelector((state) => state.user._id);
+  const firstName = useSelector((state) => state.user.firstName);
+   const [cmt, setCmt] = useState("")
   const [isComments, setIsComments] = useState(false);
   let isLiked;
   let likesCount
   if (likes) {
-     isLiked = Boolean(likes[userIdLogged]);
-     likesCount = Object.keys(likes).length;
+    isLiked = Boolean(likes[userIdLogged]);
+    likesCount = Object.keys(likes).length;
   }
 
 
@@ -43,6 +49,39 @@ function Post({
     dispatch(setPost({ post: updatedPost }));
   };
 
+
+  async function deleteMyPost(postId, userIdLogged) {
+    if (window.confirm("Are you sure about it?")) {
+      let res = await fetch(`https://smoggy-lamb-waders.cyclic.cloud/posts/${postId}/${userIdLogged}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+      let data = await res.json()
+      console.log(data)
+      dispatch(setPosts({ posts: data }));
+    }
+  }
+
+  async function sendComment() {
+    if (cmt.length > 0) {
+      const comment = cmt;
+      const res = await fetch(`http://localhost:5000/posts/${postId}/${comment}/${firstName}/comments`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+
+      })
+      const updatedPost = await res.json();
+      dispatch(setPost({ post: updatedPost }));
+      setCmt("")
+    } else {
+      alert("Enter something to save your comment")
+    }
+  }
+
   return (
     <main className="postContainer">
       <hr />
@@ -52,6 +91,16 @@ function Post({
         subtitle={location}
         userPicturePath={userPicturePath}
       />
+      {userIdLogged === postUserId ? (
+        <div style={{ float: "right", marginTop: "-40px" }}>
+          <Link>
+            <AiFillDelete
+              className="editpostBtn"
+              onClick={() => deleteMyPost(postId, userIdLogged)}
+            />
+          </Link>
+        </div>
+      ) : ("")}
       <p className="postDesc">{description}</p>
       {picturePath && (
         <img
@@ -65,37 +114,35 @@ function Post({
           <div className="postImpressed" style={{ gap: "5px" }}>
             <p onClick={likePostUpdate}>
               {isLiked ? (
-                <MdOutlineFavorite className="likes" />
+                <MdOutlineFavorite className="likes" style={{ fontSize: "20px", cursor: "pointer" }} />
               ) : (
-                <MdOutlineFavoriteBorder />
+                <MdOutlineFavoriteBorder style={{ fontSize: "20px", cursor: "pointer" }} />
               )}
             </p>
             <p>{likesCount}</p>
           </div>
           <div className="postImpressed" style={{ gap: "5px" }}>
             <p onClick={() => setIsComments(!isComments)}>
-              <FaRegComment />
+              <FaRegComment style={{ fontSize: "20px", cursor: "pointer" }} />
             </p>
-            <p>{comments ? comments.length: ""}</p>
-          </div>
-          <div>
-            <p>
-              <PiShareFatFill />
-            </p>
+            <p>{comments ? comments.length : ""}</p>
           </div>
         </div>
       </div>
       {isComments && (
         <div className="commentContainer">
-          {comments.length
-            ? comments.map((comment, index) => {
-                <div key={index}>
-                  <hr />
-                  <p className="comment">{comment}</p>
-                </div>;
-              })
-            : ""}
-          <hr />
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <input type="text" maxLength={20} placeholder="Enter your comments" name="cmt" style={{ width: "80%", border: "none", outline: "none", borderBottom: "1px solid black" }} value={cmt} onChange={(e) => setCmt(e.target.value)}
+            />
+            <BiSolidSend style={{ fontSize: "20px", cursor: "pointer" }} onClick={sendComment} />
+          </div>
+          <h5 className="my-3">Comments</h5>
+          {comments?.map((com, index) => (
+            <div key={index}>
+              <p className="comment" style={{  fontWeight: "600", color: "blue" }}>{com.firstName}</p>
+              <p className="mx-5"><BsArrowReturnRight  style={{marginTop:"-3px"}}/> {com.comment}</p>
+            </div>
+          ))}
         </div>
       )}
     </main>

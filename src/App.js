@@ -4,6 +4,8 @@ import Login from "./Components/Login";
 import Profile from "./Components/Profile";
 import Register from "./Components/Register";
 import { useSelector } from "react-redux";
+import Settings from "./Components/Settings";
+
 
 function App() {
   const authGuard = Boolean(useSelector((state) => state.token));
@@ -20,6 +22,10 @@ function App() {
           <Route
             path="/profile/:userId"
             element={authGuard ? <Profile /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/settings/:userId"
+            element={authGuard ? <Settings /> : <Navigate to="/" />}
           />
         </Routes>
       </BrowserRouter>

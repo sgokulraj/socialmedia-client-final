@@ -5,6 +5,9 @@ import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../ReduxState/index";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+
 
 function Login() {
   const {
@@ -39,6 +42,17 @@ function Login() {
       },
     },
   };
+
+  const popover = (
+    <Popover id="popover-basic">
+      <Popover.Header as="h3">Test Credentials</Popover.Header>
+      <Popover.Body>
+        <p><strong>Email:</strong> gokul@test.com</p>
+        <p><strong>Password:</strong> Gokul!123</p>
+      </Popover.Body>
+    </Popover>
+  )
+
 
   return (
     <>
@@ -82,7 +96,7 @@ function Login() {
             })}
           >
             <div className="inputContainer">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email"  style={{float:"left"}}>Email</label>
               <br />
               <input
                 type="text"
@@ -96,7 +110,7 @@ function Login() {
               <p className="errmsg">{errors.email && errors.email.message}</p>
             </div>
             <div className="inputContainer">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password"  style={{float:"left"}}>Password</label>
               <br />
               <input
                 type="password"
@@ -121,6 +135,9 @@ function Login() {
             </div>
           </form>
           <p className="newUserLink">New to SnapBook? <Link to="/register">Click here to Register</Link></p>
+          <OverlayTrigger trigger="click" placement="bottom" overlay={popover} className="testCred">
+            <Button variant="success">View Test Credentials</Button>
+          </OverlayTrigger>
         </div>
       </div>
     </>

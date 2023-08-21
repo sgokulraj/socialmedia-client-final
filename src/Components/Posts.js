@@ -35,7 +35,7 @@ function Posts({ userId, isProfile = false }) {
   }, []);
   return (
     <div>
-      {posts.length
+      {posts?.length
         ? posts.map(
             ({
               _id,

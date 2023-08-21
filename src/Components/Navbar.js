@@ -38,39 +38,10 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse " id="navbarTogglerDemo02">
-          <form className="d-flex ms-auto" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-primary" type="submit">
-              Search
-            </button>
-          </form>
           <div className="d-flex ms-auto navLinkPosition">
-            <ul className="navbar-nav mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className="nav-link active" to="#">
-                  <BiSolidMessage
-                    style={{ fontSize: "25px", color: "skyblue" }}
-                  />
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link active" to="#">
-                  <MdNotificationsActive
-                    style={{ fontSize: "25px", color: "skyblue" }}
-                  />
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link active" to="#">
-                  <BiSolidHelpCircle
-                    style={{ fontSize: "25px", color: "skyblue" }}
-                  />
-                </Link>
+            <ul className="navbar-nav mb-2 mb-lg-0" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap:"20px" }}>
+              <li>
+                <img src={user?.picturePath} width={30} height={30} style={{ objectFit: "cover", borderRadius: "50%", alignItems: "center", marginLeft: "-10px" }} />
               </li>
               <li className="nav-item">
                 <span className="nav-link dropdown dropstart">
