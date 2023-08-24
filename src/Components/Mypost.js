@@ -32,6 +32,9 @@ function Mypost({ picturePath }) {
       body: formData,
     });
     const posts = await res.json();
+    if(res.ok){
+      alert("Post created successfully")
+    }
     dispatch(setPosts({ posts }));
 
     setImage(null);

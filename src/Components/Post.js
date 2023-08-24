@@ -61,13 +61,16 @@ function Post({
       let data = await res.json()
       console.log(data)
       dispatch(setPosts({ posts: data }));
+      if(res.ok){
+        alert("Post Deleted successfully")
+      }
     }
   }
 
   async function sendComment() {
     if (cmt.length > 0) {
       const comment = cmt;
-      const res = await fetch(`http://localhost:5000/posts/${postId}/${comment}/${firstName}/comments`, {
+      const res = await fetch(`https://smoggy-lamb-waders.cyclic.cloud/posts/${postId}/${comment}/${firstName}/comments`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,

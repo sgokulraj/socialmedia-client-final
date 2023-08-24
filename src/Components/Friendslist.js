@@ -20,11 +20,14 @@ function Friendslist({ userId }) {
 
   useEffect(() => {
     getUserFriends();
-  }, []); 
+  }, []);
 
   return (
     <main className="friendlistContainer">
-      <h5>Friends List</h5>
+      <div style={{display:"flex", justifyContent:"space-between"}}>
+        <h5>Friends</h5>
+        <p>{`${friends.length}`}</p>
+      </div>
       <div className="frndList">
         {friends.length ? (friends.map((friend) => (
           <Friends
@@ -34,7 +37,7 @@ function Friendslist({ userId }) {
             subtitle={friend.location}
             userPicturePath={friend.picturePath}
           />
-        ))):('')}
+        ))) : ('')}
       </div>
     </main>
   );

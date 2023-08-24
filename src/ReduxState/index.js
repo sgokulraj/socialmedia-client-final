@@ -16,6 +16,9 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
     },
+    setProfile: (state, action) => {
+      state.user = action.payload.user
+    },
     setFriends: (state, action) => {
       if (state.user) {
         state.user.friends = action.payload.friends;
@@ -39,6 +42,6 @@ const authSlice = createSlice({
 });
 
 const { actions, reducer } = authSlice;
-export const {  setLogin, setLogout, setFriends, setPosts, setPost } =
+export const { setLogin, setLogout, setFriends, setPosts, setPost, setProfile } =
   actions;
 export default reducer;

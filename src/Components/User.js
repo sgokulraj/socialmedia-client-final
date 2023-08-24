@@ -38,6 +38,7 @@ function User({ userId, picturePath }) {
     viewedProfile,
     impressions,
     friends,
+    email
   } = user;
 
   return (
@@ -54,7 +55,7 @@ function User({ userId, picturePath }) {
           </div>
           <div className="nameContianer">
             <h4>{`${firstName} ${lastName}`}</h4>
-            <p>{`${friends.length} friends`}</p>
+            <p>{`${email}`}</p>
           </div>
         </div>
         <Link to={`/settings/${userId}`}>
